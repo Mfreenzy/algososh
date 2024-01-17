@@ -1,0 +1,21 @@
+.container {
+    margin: 0 auto;
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    padding-bottom: 4px;
+}
+
+.input {
+    max-width: 377px;
+    padding-bottom: 120px;
+}
+
+.list {
+    display: flex;
+    gap: 16px;
+    justify-content: center;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
