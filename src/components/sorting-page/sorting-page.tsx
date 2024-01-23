@@ -14,6 +14,7 @@ export const SortingPage: React.FC = () => {
   const [sortingMethod, setSortingMethod] = useState<"selectionSort" | "bubbleSort">("selectionSort");
   const [sortArray, setSortArray] = useState<TColumn[]>([]);
   const [inProgress, setInProgress] = useState<boolean>(false);
+  const [sortingDirection, setSortingDirection] = useState<"asc" | "desc" | null>(null);
 
   const minArrayLength = 3;
   const maxArrayLength = 17;
@@ -34,8 +35,11 @@ export const SortingPage: React.FC = () => {
     return columnsArray;
   };
 
-  const setNewArray = () => {
-    setSortArray(getRandomArr(minArrayLength, maxArrayLength));
+  const setNewArray = async () => {
+    setInProgress(true); // устанавливаем inProgress в true перед обновлением массива
+    setSortingDirection(null);
+    await setSortArray(getRandomArr(minArrayLength, maxArrayLength)); // ожидаем обновление массива
+    setInProgress(false); // устанавливаем inProgress в false после завершения обновления массива
   };
 
   useEffect(() => {
@@ -102,6 +106,7 @@ export const SortingPage: React.FC = () => {
 
   const ascSort = async () => {
     setInProgress(true);
+    setSortingDirection('asc');
     if (sortingMethod === "bubbleSort") {
       await bubbleSort(sortArray, "asc"); 
     }
@@ -113,6 +118,7 @@ export const SortingPage: React.FC = () => {
 
   const descSort = async () => {
     setInProgress(true);
+    setSortingDirection('desc');
     if (sortingMethod === "bubbleSort") {
       await bubbleSort(sortArray, "desc"); 
     }
@@ -139,9 +145,9 @@ export const SortingPage: React.FC = () => {
         label="Пузырёк"
         disabled={inProgress}
       />
-      <Button isLoader={inProgress} onClick={ascSort} type="button" text="По возрастанию" sorting={Direction.Ascending} />
-      <Button isLoader={inProgress} onClick={descSort} type="button" text="По убыванию" sorting={Direction.Descending} />
-      <Button isLoader={inProgress} onClick={setNewArray} text="Новый массив" />
+      <Button isLoader={inProgress && sortingDirection === 'asc'} onClick={ascSort} type="button" text="По возрастанию" sorting={Direction.Ascending} disabled={inProgress}/>
+      <Button isLoader={inProgress && sortingDirection === 'desc'} onClick={descSort} type="button" text="По убыванию" sorting={Direction.Descending} disabled={inProgress}/>
+      <Button isLoader={inProgress && sortingDirection === null} onClick={setNewArray} text="Новый массив" disabled={inProgress}/>
     </form>
     <ul className={`${styles.sortPage__columns}`}>
       {sortArray && sortArray.map((item, index) => (
