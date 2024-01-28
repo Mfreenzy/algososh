@@ -33,12 +33,17 @@ export const ListPage: React.FC = () => {
     list.getArrayWithState()
   );
 
-  const handleInputValChange = (e: FormEvent<HTMLInputElement>) => {
-    setInputValue(e.currentTarget.value);
+  const handleInputValChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    let value = e.currentTarget.value;
+    value = value.replace(/\D/g, ''); // Удаляем все символы, кроме цифр
+    setInputValue(value);
   };
 
   const handleInputIdxChange = (e: FormEvent<HTMLInputElement>) => {
-    setInputIdx(e.currentTarget.value);
+    let value = e.currentTarget.value;
+    if (!isNaN(Number(value)) && Number(value) >= 0) {
+      setInputIdx(value);
+    }
   };
 
   const prepend = async () => {
@@ -53,13 +58,15 @@ export const ListPage: React.FC = () => {
       const arrayWithState = list.getArrayWithState();
       arrayWithState[0].state = ElementStates.Modified;
       setArrayWithState(arrayWithState);
+
       await delay(SHORT_DELAY_IN_MS);
 
       arrayWithState[0].state = ElementStates.Default;
       setArrayWithState(arrayWithState);
+
+      setInputValue("");
+      setActive(false);
     }
-    setInputValue("");
-    setActive(false);
   };
 
   const append = async () => {
@@ -120,8 +127,9 @@ export const ListPage: React.FC = () => {
 
   const addByIndex = async () => {
     const numericIdx = parseInt(inputIdx);
-    if (numericIdx > list.getSize) return;
-
+    if (numericIdx < 0 || numericIdx > list.getSize - 1) {
+      return; // индекс невалидный, кнопка должна быть неактивной
+    }
     setActive(true);
     setIsInsertByIndex(true);
 
@@ -149,9 +157,12 @@ export const ListPage: React.FC = () => {
     setInputValue("");
     setInputIdx("");
   };
+
   const removeByIndex = async () => {
     const numericIdx = parseInt(inputIdx);
-    if (numericIdx > list.getSize) return;
+    if (numericIdx < 0 || numericIdx > list.getSize - 1) {
+      return;  // индекс невалидный, кнопка должна быть неактивной
+    }
 
     setActive(true);
     const arrayWithState = list.getArrayWithState();
@@ -240,6 +251,7 @@ export const ListPage: React.FC = () => {
             onChange={handleInputIdxChange}
             extraClass={styles.input}
             placeholder={"Введите индекс"}
+            type="number"
           />
           <Button
             text="Добавить по индексу"
