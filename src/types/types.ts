@@ -18,3 +18,9 @@ export enum position {
     head = "head",
     tail = "tail",
 }
+
+export enum ElementColors {
+    Default = "#0032ff",
+    Changing = "#d252e1",
+    Modified = "#7fe051",
+}
