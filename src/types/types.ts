@@ -14,6 +14,11 @@ export type TQuenue = TCircle & {
     head?: string;
 }
 
+export enum SortName {
+    select = "выбор",
+    bubble = "пузырек"
+}
+
 export enum position {
     head = "head",
     tail = "tail",
