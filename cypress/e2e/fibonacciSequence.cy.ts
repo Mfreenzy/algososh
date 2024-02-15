@@ -1,4 +1,5 @@
 import { TEST_URL } from "../../src/constants/forTest";
+import { buttonSubmitSelector } from "../../src/constants/forTest";
 
 describe("fibonacciSequence", () => {
   beforeEach(() => {
@@ -7,7 +8,7 @@ describe("fibonacciSequence", () => {
 
   it("should disable the button when input is empty", () => {
     cy.get("input").should("be.empty");
-    cy.get('button[type="submit"]').should("be.disabled");
+    cy.get(buttonSubmitSelector).should("be.disabled");
   });
 
   it("numbers should be generated correctly", function () {

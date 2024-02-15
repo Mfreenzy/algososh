@@ -1,18 +1,18 @@
-import { TEST_URL } from "../../src/constants/forTest";
+import { TEST_URL, buttonSubmitSelector, circleChangingSelector, circleCircleSelector, circleContentSelector, circleDefaultSelector } from "../../src/constants/forTest";
 import { SHORT_DELAY_IN_MS } from "../../src/constants/delays";
 
 const addingElement = (value: string) => {
   cy.get("input").type(value);
   cy.contains("button", "Добавить").click();
-  cy.get("[class*=circle_changing]").contains(value);
+  cy.get(circleChangingSelector).contains(value);
   cy.wait(SHORT_DELAY_IN_MS);
-  cy.get("[class*=circle_default]").contains(value);
+  cy.get(circleDefaultSelector).contains(value);
 };
 
 const removingElement = (value: string) => {
   cy.contains("button", "Удалить").click();
-  cy.get("[class*=circle_changing]").contains(value);
-  cy.get("[class*=circle_circle]").each((element, index) => {
+  cy.get(circleChangingSelector).contains(value);
+  cy.get(circleCircleSelector).each((element, index) => {
     if (index === length - 1) {
       expect(element).to.contain(value);
     }
@@ -28,13 +28,13 @@ describe("stack", () => {
 
   it("button should be disabled if string is empty", function () {
     cy.get("input").should("be.empty");
-    cy.get('button[type="submit"]').should("be.disabled");
+    cy.get(buttonSubmitSelector).should("be.disabled");
   });
 
   it("element should be adding correctly", function () {
     values.forEach((value, index) => {
       addingElement(value);
-      cy.get("[class*=circle_content]").as("circle");
+      cy.get(circleContentSelector).as("circle");
 
       cy.get("@circle")
         .should("have.length", index + 1)
@@ -48,7 +48,7 @@ describe("stack", () => {
 
   it("element should be removing correctly", function () {
     values.forEach((value) => addingElement(value));
-    cy.get("[class*=circle_content]").as("circle");
+    cy.get(circleContentSelector).as("circle");
     removingElement(values[2]);
 
     cy.get("@circle")
@@ -65,6 +65,6 @@ describe("stack", () => {
   it("clear should be correctly", function () {
     values.forEach((value) => addingElement(value));
     cy.contains("button", "Очистить").click();
-    cy.get("[class*=circle_content]").should("have.length", 0);
+    cy.get(circleContentSelector).should("have.length", 0);
   });
 });

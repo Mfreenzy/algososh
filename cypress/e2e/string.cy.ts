@@ -1,4 +1,4 @@
-import { TEST_URL } from "../../src/constants/forTest";
+import { TEST_URL, buttonSubmitSelector, circleCircleSelector } from "../../src/constants/forTest";
 import { DELAY_IN_MS } from "../../src/constants/delays";
 
 describe("StringComponent", () => {
@@ -8,14 +8,14 @@ describe("StringComponent", () => {
 
   it("should disable the button when input is empty", () => {
     cy.get("input").should("be.empty");
-    cy.get('button[type="submit"]').should("be.disabled");
+    cy.get(buttonSubmitSelector).should("be.disabled");
   });
 
   it("should reversed correctly", function () {
     cy.get("input").type("abc");
     cy.contains("Развернуть").click();
 
-    cy.get("[class^=circle_circle]").as("circle");
+    cy.get(circleCircleSelector).as("circle");
 
     cy.get("@circle").each((el, index) => {
       if (index === 0 || index === 2) {
