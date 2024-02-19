@@ -8,6 +8,7 @@ import { delay } from "../../utils/delay";
 import { SHORT_DELAY_IN_MS } from "../../constants/delays";
 import { Circle } from "../ui/circle/circle";
 
+
 export const FibonacciPage: React.FC = () => {
   const [value, setValue] = useState<string>("");
   const [isActive, setIsActive] = useState(false);

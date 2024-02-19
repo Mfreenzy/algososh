@@ -1,23 +1,44 @@
-.sortPage {
+.wrapper {
     display: flex;
     flex-direction: column;
-    align-items: center;
+    justify-content: space-between;
+    min-height: 450px;
 }
 
-.sortPage__form {
+.container {
+    display: flex;
+    max-width: 980px;
+    margin: 0 auto 48px;
+}
+
+.container__radio {
     display: flex;
     align-items: center;
-    justify-content: center;
+    gap: 40px;
+    margin-right: 52px;
+}
+
+.container__btn {
+    display: flex;
+    flex: 1;
     gap: 12px;
-    width: 100%;
 }
 
-.sortPage__columns {
+.btn:last-child {
+    margin-left: calc(80px - 12px);
+}
+
+.column__container {
     display: flex;
-    align-items: flex-end;
+    justify-content: center;
     gap: 10px;
-    list-style: none;
-    margin: 48px 0 0;
+    margin: 0;
     padding: 0;
-    min-height: 340px;
+    list-style: none;
+    max-height: 340px;
+}
+
+.column__container li {
+    display: flex;
+    flex-direction: column-reverse;
 }
